@@ -26,7 +26,7 @@ def test_correct_load_config_yml(tmpdir):
         yaml.dump(TEST_CONFIG_YAML, f)
     config = get_model_params(yaml_path)
     
-    assert 'params' in config
+    assert 'para' in config
     assert 'solver' in config['params']
     assert 'max_iter' in config['params']
     assert config['params']['solver'] == 'liblinear'
