@@ -11,10 +11,7 @@ class BaseModel(ABC):
     """abstract model class"""
     def __init__(self, params=None):
         """init func"""
-        if params is not None:
-            self.params = params
-        else:
-            params = {}
+        self.params = params
 
     @abstractmethod
     def fit(self, xtrain, ytrain):
@@ -32,7 +29,10 @@ class LogisticModel(BaseModel):
     def __init__(self, params: Dict = None) -> None:
         """init method"""
         super().__init__(params)
-        self.model = LogisticRegression(**params)
+        if self.params is not None:
+            self.model = LogisticRegression(**self.params)
+        else:
+            self.model = LogisticRegression()
 
     def fit(self,
             xtrain: Union[pd.DataFrame, np.array],
@@ -44,3 +44,6 @@ class LogisticModel(BaseModel):
                 xtest: Union[pd.DataFrame, np.array]) -> np.array:
 
         return self.model.predict(xtest)
+    
+    def __repr__(self) -> str:
+        return 'Logistic Regression'
