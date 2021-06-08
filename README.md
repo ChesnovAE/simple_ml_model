@@ -3,6 +3,7 @@
 ## Prerequisites
 
 - conda
+- docker
 
 ## Installation
 
