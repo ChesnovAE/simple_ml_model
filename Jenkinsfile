@@ -18,7 +18,9 @@ pipeline {
         }
         stage('deploy') {
             when {
-                branch "master"
+                anyOf {
+                    branch "master"
+                }
             }
             steps {
                 echo "This is master branch"
