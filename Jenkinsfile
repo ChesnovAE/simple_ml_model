@@ -17,10 +17,10 @@ pipeline {
             }   
         }
         stage('deploy') {
+            when {
+                branch "master"
+            }
             steps {
-                when {
-                    branch pattern: ".*master.*", comparator: "REGEXP"
-                }
                 echo "This is master branch"
             }
         }
