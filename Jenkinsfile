@@ -38,9 +38,6 @@ pipeline {
             steps {
                 echo "This is master branch"
                 echo "Start deploy"
-                script {
-
-                }
             }
         }
     }
