@@ -1,4 +1,7 @@
 pipeline {
+    environment {
+        dockerImage = ''
+    }
     agent { 
         docker { 
             image 'python:3.8'
@@ -16,12 +19,28 @@ pipeline {
                 sh 'pytest -vv .'
             }   
         }
+        stage('Building image') {
+            steps {
+                script {
+                    dockerImage = docker.build "test_image" + ":$BUILD_NUMBER"
+                }
+            }
+        }
+        stage('Remove Unused docker image') {
+            steps {
+                sh "docker rmi test_image:$BUILD_NUMBER"
+            }
+        }
         stage('deploy') {
             when {
                 branch "master"
             }
             steps {
                 echo "This is master branch"
+                echo "Start deploy"
+                script {
+
+                }
             }
         }
     }
