@@ -4,7 +4,7 @@ from textwrap import dedent
 
 from utils import ModelMapper, DatasetMapper, save_model, get_model_params
 
-
+# TODO: дописать применение модели
 def run_train(args):
     if args.params_path is not None:
         params = get_model_params(args.params_path)['params']
