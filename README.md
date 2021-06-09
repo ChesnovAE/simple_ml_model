@@ -18,3 +18,13 @@ pip3 install -r requirements.txt
 ```bash
 python3 app.py -h
 ```
+
+## Usage via docker
+
+```bash
+docker build -t simple_ml:latest .
+```
+
+```bash
+docker run simple_ml -h
+```
