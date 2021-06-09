@@ -9,12 +9,12 @@ pipeline {
         }
     }
     stages {
-        stage('build') {
+        stage('Install requirements') {
             steps {
                 sh 'pip3 install -r requirements.txt'
             }
         }
-        stage('test') {
+        stage('Run unit tests') {
             steps {
                 sh 'pytest -vv .'
             }   
@@ -31,7 +31,7 @@ pipeline {
                 sh "docker rmi test_image:$BUILD_NUMBER"
             }
         }
-        stage('deploy') {
+        stage('Deploy to prod') {
             when {
                 branch "master"
             }
