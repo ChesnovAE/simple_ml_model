@@ -1,4 +1,6 @@
 # simple_ml_model
+[![Build Status](http://194.67.111.68:8081/buildStatus/icon?job=test_folder%2Ftest_multibranch%2Fmaster)](http://194.67.111.68:8081/job/test_folder/job/test_multibranch/job/master/)
+
 
 This is the abstract ml project for testing [MLops pipeline](https://github.com/ChesnovAE/MLops_setup)
 
