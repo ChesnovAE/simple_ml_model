@@ -2,6 +2,7 @@ pipeline {
     environment {
         registry = "ripper1011/jenkins-test"
         registryCredential = 'dockerhub'
+        image_name = 'simple_ml_model'
         dockerImage = ''
     }
     agent { 
@@ -27,7 +28,7 @@ pipeline {
             }
             steps {
                 script {
-                    docker.build registry + ":$BUILD_NUMBER"
+                    dockerImage = docker.build registry + ":$image_name_v$BUILD_NUMBER"
                 }
             }
         }
