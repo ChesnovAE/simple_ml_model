@@ -1,5 +1,7 @@
 pipeline {
     environment {
+        registry = "ripper1011/jenkins-test"
+        registryCredential = 'dockerhub'
         dockerImage = ''
     }
     agent { 
@@ -19,25 +21,31 @@ pipeline {
                 sh 'pytest -vv .'
             }   
         }
-        stage('Building image') {
-            steps {
-                script {
-                    dockerImage = docker.build "test_image" + ":$BUILD_NUMBER"
-                }
-            }
-        }
-        stage('Remove Unused docker image') {
-            steps {
-                sh "docker rmi test_image:$BUILD_NUMBER"
-            }
-        }
-        stage('Deploy to prod') {
+        stage('Build docker image') {
             when {
                 branch "master"
             }
             steps {
-                echo "This is master branch"
-                echo "Start deploy"
+                script {
+                    docker.build registry + ":$BUILD_NUMBER"
+                }
+            }
+        }
+        stage('Deploy docker Image') {
+            when {
+                branch "master"
+            }
+            steps{
+                script {
+                    docker.withRegistry( '', registryCredential ) {
+                        dockerImage.push()
+                    }
+                }
+            }
+        }
+        stage('Remove Unused docker image') {
+            steps{
+                sh "docker rmi $registry:$BUILD_NUMBER"
             }
         }
     }
