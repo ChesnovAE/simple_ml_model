@@ -13,28 +13,22 @@ pipeline {
     }
     stages {
         stage('Install requirements') {
-            gitlabCommitStatus('Install requirements') {
-                steps {
-                    sh 'pip3 install -r requirements.txt'
-                }
+            steps {
+                sh 'pip3 install -r requirements.txt'
             }
         }
         stage('Run unit tests') {
-            gitlabCommitStatus('Run unit tests') {
-                steps {
-                    sh 'pytest -vv .'
-                }
-            }
+            steps {
+                sh 'pytest -vv .'
+            }   
         }
         stage('Build docker image') {
             when {
                 branch "master"
             }
-            gitlabCommitStatus('Build docker image') {
-                steps {
-                    script {
-                        dockerImage = docker.build registry + ":${image_name}_v${BUILD_NUMBER}"
-                    }
+            steps {
+                script {
+                    dockerImage = docker.build registry + ":${image_name}_v${BUILD_NUMBER}"
                 }
             }
         }
@@ -42,24 +36,17 @@ pipeline {
             when {
                 branch "master"
             }
-            gitlabCommitStatus('Deploy docker image') {
-                steps {
-                    script {
-                        docker.withRegistry( '', registryCredential ) {
-                            dockerImage.push()
-                        }
+            steps{
+                script {
+                    docker.withRegistry( '', registryCredential ) {
+                        dockerImage.push()
                     }
                 }
             }
         }
-        stage('Remove unused docker image') {
-            when {
-                branch "master"
-            }
-            gitlabCommitStatus('Remove unused docker image') {
-                steps {
-                    sh "docker rmi $registry:${image_name}_v${BUILD_NUMBER}"
-                }
+        stage('Remove Unused docker image') {
+            steps{
+                sh "docker rmi $registry:${image_name}_v${BUILD_NUMBER}"
             }
         }
     }
