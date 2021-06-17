@@ -1,5 +1,6 @@
+import os
 import yaml
-import pickle
+import dill
 
 from sklearn.datasets import load_iris
 
@@ -10,9 +11,10 @@ def _get_iris():
     return load_iris(return_X_y=True)
 
 
-def save_model(path, model):
+def save_model(name, model):
+    path = os.path.join('./dill_models', name + '.dill')
     with open(path, 'wb') as f:
-        pickle.dump(model, f)
+        dill.dump(model, f)
 
 
 def get_model_params(path):
